@@ -6,9 +6,9 @@ import tkinter as tk
 from tkinter import filedialog
 
 root = tk.Tk()
-#root.withdraw()
+root.withdraw()
 
-file_path = filedialog.askdirectory()
+file_path = filedialog.askdirectory(title='Select source file directory')
 print("file path: " + file_path)
 
 def get_file_list(directory):
@@ -20,7 +20,7 @@ def generate_playlist(file_list):
 	path = os.getcwd()
 	output = ""
 	for song in file_list:
-		if ".mp3" in song:
+		if song.endswith('.mp3'):
 			tag = TinyTag.get(song)
 			filesize = tag.filesize
 			artist = tag.artist
@@ -36,7 +36,7 @@ def main():
 	directory = file_path
 	file_list = get_file_list(directory)
 	text = generate_playlist(file_list)
-	f = filedialog.asksaveasfile(mode='w', defaultextension='.m3u')
+	f = filedialog.asksaveasfile(mode='w', defaultextension='.m3u', title='Save output .m3u')
 	if f is None:
 		return
 	f.write(text)
